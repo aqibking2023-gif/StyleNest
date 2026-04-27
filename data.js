@@ -1,33 +1,23 @@
-// Products Data Store
+// data.js - Global Data & Config
 let products = [];
 
-// Admin Credentials
 const ADMIN_CREDENTIALS = {
   username: 'admin',
-  password: 'stylenest123' // ✅ Change this before going live!
+  password: 'stylenest123' // ⚠️ LIVE KARNE SE PEHLE CHANGE KAREIN!
 };
 
-// LocalStorage Management
 function loadProducts() {
   const stored = localStorage.getItem('stylenest_products');
   if (stored) {
-    try {
-      products = JSON.parse(stored);
-    } catch (e) {
-      products = [];
-      localStorage.removeItem('stylenest_products');
-    }
+    try { products = JSON.parse(stored); } 
+    catch (e) { products = []; localStorage.removeItem('stylenest_products'); }
   }
   return products;
 }
 
 function saveProducts() {
-  try {
-    localStorage.setItem('stylenest_products', JSON.stringify(products));
-  } catch (e) {
-    alert('⚠️ Storage full! Delete some products or use smaller images.');
-  }
+  try { localStorage.setItem('stylenest_products', JSON.stringify(products)); }
+  catch (e) { alert('⚠️ Storage full! Images compress karein ya kuch products delete karein.'); }
 }
 
-// Initialize
 loadProducts();
