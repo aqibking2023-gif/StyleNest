@@ -115,7 +115,70 @@
       width: 100%; padding: 1rem; background: #2563eb; color: #fff;
       border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
     }
+    .checkout-btn:disabled { background: #9ca3af; cursor: not-allowed; }
     .empty-cart { text-align: center; padding: 3rem 1rem; color: #666; }
+    
+    /* Checkout Modal */
+    .checkout-modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 1001; display: none;
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .checkout-modal.open { display: flex; }
+    .checkout-box {
+      background: #fff; border-radius: 12px; width: 100%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .checkout-header {
+      padding: 1.5rem; border-bottom: 2px solid #f0f0f0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .checkout-header h2 { margin: 0; color: var(--primary); }
+    .close-checkout { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #666; }
+    .checkout-body { padding: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 500; color: var(--text); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0;
+      border-radius: 8px; font-family: inherit; font-size: 1rem;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none; border-color: var(--primary);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .order-summary {
+      background: #f8fafc; padding: 1rem; border-radius: 8px;
+      margin-bottom: 1.5rem; border: 1px solid #e2e8f0;
+    }
+    .order-summary h3 { margin-bottom: 0.8rem; color: var(--primary); font-size: 1.1rem; }
+    .summary-item {
+      display: flex; justify-content: space-between; padding: 0.5rem 0;
+      border-bottom: 1px solid #e2e8f0; font-size: 0.95rem;
+    }
+    .summary-item:last-child { border-bottom: none; font-weight: 600; font-size: 1.1rem; color: var(--primary); }
+    .place-order-btn {
+      width: 100%; padding: 1rem; background: #16a34a; color: #fff;
+      border: none; border-radius: 8px; font-weight: 600; font-size: 1.1rem;
+      cursor: pointer; transition: 0.3s;
+    }
+    .place-order-btn:hover { background: #15803d; }
+    
+    /* Success Message */
+    .success-modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); z-index: 1002; display: none;
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .success-modal.open { display: flex; }
+    .success-box {
+      background: #fff; border-radius: 12px; padding: 3rem 2rem;
+      text-align: center; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .success-box h2 { color: #16a34a; margin-bottom: 1rem; }
+    .success-box p { color: var(--light); margin-bottom: 1.5rem; }
+    .success-box .btn { padding: 0.8rem 2rem; }
     
     /* Footer */
     footer { background: var(--text); color: #fff; padding: 3rem 2rem; text-align: center; margin-top: 3rem; }
@@ -127,6 +190,7 @@
       .logo { font-size: 1.4rem; }
       .hero h1 { font-size: 2rem; }
       .cart-drawer { max-width: 100%; }
+      .form-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -165,7 +229,7 @@
   <footer>
     <p>© 2026 <strong>StyleNest.ink</strong></p>
     <p style="margin-top:1rem;"><a href="#">Privacy</a> | <a href="#">Terms</a></p>
-    <p style="margin-top:1rem; color:#ccc; font-size:0.9rem;">🚚 Nationwide Delivery</p>
+    <p style="margin-top:1rem; color:#ccc; font-size:0.9rem;">🚚 Nationwide Delivery | 💰 Cash on Delivery</p>
   </footer>
 
   <!-- Cart Drawer -->
@@ -183,7 +247,84 @@
         <span>Total:</span>
         <span id="cart-total">Rs. 0 PKR</span>
       </div>
-      <button class="checkout-btn" onclick="alert('Checkout feature coming soon! WhatsApp order par shift karein.')">Proceed to Checkout</button>
+      <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-box">
+      <div class="checkout-header">
+        <h2>📝 Checkout</h2>
+        <button class="close-checkout" onclick="closeCheckout()">×</button>
+      </div>
+      <div class="checkout-body">
+        <div class="order-summary" id="checkoutSummary">
+          <!-- Order summary will be inserted here -->
+        </div>
+        
+        <form id="checkoutForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="custName" required placeholder="Muhammad Ahmed">
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" id="custPhone" required placeholder="0300-1234567">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="custEmail" placeholder="ahmed@example.com">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>City *</label>
+              <input type="text" id="custCity" required placeholder="Karachi">
+            </div>
+            <div class="form-group">
+              <label>Postal Code</label>
+              <input type="text" id="custPostal" placeholder="75500">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Complete Address *</label>
+            <textarea id="custAddress" required placeholder="House #, Street #, Area, Landmark"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>Payment Method *</label>
+            <select id="paymentMethod" required>
+              <option value="cod">💵 Cash on Delivery (COD)</option>
+              <option value="jazzcash">📱 JazzCash</option>
+              <option value="easypaisa">📱 EasyPaisa</option>
+              <option value="bank">🏦 Bank Transfer</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Order Notes (Optional)</label>
+            <textarea id="orderNotes" placeholder="Any special instructions..."></textarea>
+          </div>
+          
+          <button type="submit" class="place-order-btn">✅ Place Order</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="success-modal" id="successModal">
+    <div class="success-box">
+      <div class="success-icon">✅</div>
+      <h2>Order Placed Successfully!</h2>
+      <p>Thank you for your order. We will contact you soon to confirm.</p>
+      <p style="font-weight: 600; color: var(--primary);">Order ID: <span id="orderIdDisplay"></span></p>
+      <button class="btn" onclick="closeSuccess()">Continue Shopping</button>
     </div>
   </div>
 
@@ -260,7 +401,7 @@
       
       localStorage.setItem('stylenest_cart', JSON.stringify(cart));
       updateCartUI();
-      toggleCart(); // Auto-open cart
+      toggleCart();
     }
 
     function removeFromCart(index) {
@@ -273,6 +414,7 @@
       const cartCount = document.getElementById('cart-count');
       const cartItemsContainer = document.getElementById('cart-items-list');
       const cartTotalEl = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkoutBtn');
       
       const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
       cartCount.textContent = `(${totalItems})`;
@@ -280,6 +422,7 @@
       if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<div class="empty-cart">Your cart is empty 🛒</div>';
         cartTotalEl.textContent = 'Rs. 0 PKR';
+        checkoutBtn.disabled = true;
         return;
       }
       
@@ -296,7 +439,81 @@
       
       const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
       cartTotalEl.textContent = `Rs. ${total.toLocaleString()} PKR`;
+      checkoutBtn.disabled = false;
     }
+
+    // Checkout Functions
+    function openCheckout() {
+      if (cart.length === 0) return;
+      
+      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const summaryHTML = `
+        <h3>📦 Order Summary</h3>
+        ${cart.map(item => `
+          <div class="summary-item">
+            <span>${item.name} (Size: ${item.size}) x ${item.qty}</span>
+            <span>Rs. ${(item.price * item.qty).toLocaleString()}</span>
+          </div>
+        `).join('')}
+        <div class="summary-item">
+          <span>Total Amount:</span>
+          <span>Rs. ${total.toLocaleString()} PKR</span>
+        </div>
+      `;
+      
+      document.getElementById('checkoutSummary').innerHTML = summaryHTML;
+      document.getElementById('checkoutModal').classList.add('open');
+      document.querySelector('.cart-overlay').classList.remove('open');
+      document.querySelector('.cart-drawer').classList.remove('open');
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutModal').classList.remove('open');
+    }
+
+    function closeSuccess() {
+      document.getElementById('successModal').classList.remove('open');
+      cart = [];
+      localStorage.setItem('stylenest_cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    // Handle Checkout Form Submit
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const order = {
+        orderId: 'ORD-' + Date.now(),
+        date: new Date().toLocaleString(),
+        customer: {
+          name: document.getElementById('custName').value,
+          phone: document.getElementById('custPhone').value,
+          email: document.getElementById('custEmail').value,
+          city: document.getElementById('custCity').value,
+          postal: document.getElementById('custPostal').value,
+          address: document.getElementById('custAddress').value
+        },
+        payment: document.getElementById('paymentMethod').value,
+        notes: document.getElementById('orderNotes').value,
+        items: cart,
+        total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+        status: 'Pending'
+      };
+      
+      // Save order to localStorage
+      let orders = JSON.parse(localStorage.getItem('stylenest_orders')) || [];
+      orders.push(order);
+      localStorage.setItem('stylenest_orders', JSON.stringify(orders));
+      
+      // Show success
+      document.getElementById('orderIdDisplay').textContent = order.orderId;
+      document.getElementById('checkoutModal').classList.remove('open');
+      document.getElementById('successModal').classList.add('open');
+      
+      // Clear cart
+      cart = [];
+      localStorage.setItem('stylenest_cart', JSON.stringify(cart));
+    });
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
