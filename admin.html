@@ -6,591 +6,162 @@
   <title>Admin Panel - StyleNest</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #eff6ff;
-      --text: #1e293b;
-      --light-text: #64748b;
-      --white: #fff;
-      --danger: #dc2626;
-      --success: #16a34a;
-      --warning: #ca8a04;
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
-      --border: #e2e8f0;
-    }
-    
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--secondary);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    
-    /* Login Screen */
-    .login-container {
-      max-width: 400px;
-      margin: 100px auto;
-      background: var(--white);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-    }
-    
-    .login-container h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: var(--primary);
-    }
-    
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 1rem;
-    }
-    
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-    
-    /* Image Upload Zone */
-    .upload-zone {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: #f8fafc;
-      position: relative;
-    }
-    
-    .upload-zone:hover,
-    .upload-zone.dragover {
-      border-color: var(--primary);
-      background: #eff6ff;
-    }
-    
-    .upload-zone input[type="file"] {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-    
-    .upload-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .upload-text {
-      font-weight: 500;
-      color: var(--text);
-    }
-    
-    .upload-hint {
-      font-size: 0.85rem;
-      color: var(--light-text);
-      margin-top: 0.5rem;
-    }
-    
-    .image-preview {
-      margin-top: 1rem;
-      display: none;
-      position: relative;
-    }
-    
-    .image-preview img {
-      max-width: 100%;
-      max-height: 200px;
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-    }
-    
-    .remove-image {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: var(--danger);
-      color: white;
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .error-msg {
-      color: var(--danger);
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-      display: none;
-    }
-    
-    /* Buttons */
-    .btn {
-      background: var(--primary);
-      color: var(--white);
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 1rem;
-    }
-    
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
-    .btn-success { background: var(--success); }
-    .btn-danger { background: var(--danger); }
-    .btn-warning { background: var(--warning); }
-    .btn-secondary { background: var(--light-text); }
-    .btn-full { width: 100%; }
-    
-    /* Admin Dashboard */
-    .admin-container { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
-    .admin-header {
-      background: var(--white);
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .admin-header h1 { color: var(--primary); }
-    
-    .admin-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 2rem;
-    }
-    
-    .product-form, .product-list {
-      background: var(--white);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-    }
-    
-    .product-form h2, .product-list h2 {
-      margin-bottom: 1.5rem;
-      color: var(--primary);
-    }
-    
-    .product-item {
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      display: grid;
-      grid-template-columns: 80px 1fr auto;
-      gap: 1rem;
-      align-items: center;
-    }
-    
-    .product-item img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 8px;
-      background: #f0f0f0;
-    }
-    
-    .product-item-info h3 { margin-bottom: 0.3rem; }
-    .product-item-info p { color: var(--light-text); font-size: 0.9rem; }
-    .product-item-actions { display: flex; gap: 0.5rem; }
-    .product-item-actions button { padding: 0.5rem 1rem; font-size: 0.9rem; }
-    
-    .empty-state { text-align: center; padding: 3rem; color: var(--light-text); }
-    
-    .storage-warning {
-      background: #fff7ed;
-      border-left: 4px solid var(--warning);
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      border-radius: 0 8px 8px 0;
-      font-size: 0.9rem;
-    }
-    
-    @media (max-width: 768px) {
-      .admin-grid { grid-template-columns: 1fr; }
-      .product-item { grid-template-columns: 1fr; }
-      .product-item-actions { justify-content: flex-end; }
-    }
+    :root { --primary:#2563eb; --secondary:#eff6ff; --text:#1e293b; --light:#64748b; --white:#fff; --danger:#dc2626; --success:#16a34a; --warn:#ca8a04; --border:#e2e8f0; --shadow:0 4px 12px rgba(0,0,0,0.08); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Poppins',sans-serif; background:var(--secondary); color:var(--text); line-height:1.6; }
+    .login-box { max-width:400px; margin:100px auto; background:var(--white); padding:2rem; border-radius:12px; box-shadow:var(--shadow); }
+    .login-box h1 { text-align:center; margin-bottom:2rem; color:var(--primary); }
+    .form-group { margin-bottom:1.2rem; }
+    .form-group label { display:block; margin-bottom:0.4rem; font-weight:500; }
+    .form-group input, .form-group select { width:100%; padding:0.75rem; border:2px solid var(--border); border-radius:8px; font-family:inherit; }
+    .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--primary); }
+    .upload-zone { border:2px dashed var(--border); border-radius:12px; padding:2rem; text-align:center; cursor:pointer; transition:0.3s; background:#f8fafc; position:relative; }
+    .upload-zone:hover, .upload-zone.dragover { border-color:var(--primary); background:#eff6ff; }
+    .upload-zone input[type="file"] { position:absolute; width:100%; height:100%; top:0; left:0; opacity:0; cursor:pointer; }
+    .preview-box { margin-top:1rem; display:none; position:relative; }
+    .preview-box img { max-width:100%; max-height:200px; border-radius:8px; box-shadow:var(--shadow); }
+    .remove-btn { position:absolute; top:-8px; right:-8px; background:var(--danger); color:#fff; border:none; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; }
+    .err-msg { color:var(--danger); font-size:0.85rem; margin-top:0.5rem; display:none; }
+    .btn { background:var(--primary); color:#fff; padding:0.75rem 1.5rem; border:none; border-radius:8px; font-weight:500; cursor:pointer; transition:0.3s; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(37,99,235,0.3); }
+    .btn-s { background:var(--success); } .btn-d { background:var(--danger); } .btn-w { background:var(--warn); } .btn-gr { background:var(--light); } .full { width:100%; }
+    .admin-wrap { display:none; max-width:1200px; margin:0 auto; padding:2rem; }
+    .admin-head { background:var(--white); padding:1.5rem; border-radius:12px; box-shadow:var(--shadow); margin-bottom:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+    .admin-head h1 { color:var(--primary); }
+    .grid { display:grid; grid-template-columns:1fr 2fr; gap:2rem; }
+    .card { background:var(--white); padding:2rem; border-radius:12px; box-shadow:var(--shadow); }
+    .card h2 { margin-bottom:1.5rem; color:var(--primary); }
+    .item { border:2px solid var(--border); border-radius:8px; padding:1rem; margin-bottom:1rem; display:grid; grid-template-columns:80px 1fr auto; gap:1rem; align-items:center; }
+    .item img { width:80px; height:80px; object-fit:cover; border-radius:8px; background:#f0f0f0; }
+    .item-info h3 { margin-bottom:0.3rem; } .item-info p { color:var(--light); font-size:0.9rem; }
+    .actions { display:flex; gap:0.5rem; } .actions button { padding:0.5rem 1rem; font-size:0.9rem; }
+    .empty { text-align:center; padding:3rem; color:var(--light); }
+    .warn { background:#fff7ed; border-left:4px solid var(--warn); padding:1rem; margin-bottom:1.5rem; border-radius:0 8px 8px 0; font-size:0.9rem; }
+    @media(max-width:768px) { .grid { grid-template-columns:1fr; } .item { grid-template-columns:1fr; } .actions { justify-content:flex-end; } }
   </style>
 </head>
 <body>
-
-  <!-- Login Screen -->
-  <div class="login-container" id="loginScreen">
-    <h1>🔐 Admin Login</h1>
-    <div class="error-msg" id="loginError" style="display:none; text-align:center; margin-bottom:1rem;">Invalid username or password!</div>
+  <div class="login-box" id="loginScreen">
+    <h1> Admin Login</h1>
+    <div class="err-msg" id="loginErr" style="display:none; text-align:center; margin-bottom:1rem;">Invalid credentials!</div>
     <form id="loginForm">
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" id="username" required placeholder="Enter username">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="password" required placeholder="Enter password">
-      </div>
-      <button type="submit" class="btn btn-full">Login</button>
+      <div class="form-group"><label>Username</label><input type="text" id="user" required placeholder="admin"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="pass" required placeholder="••••••"></div>
+      <button type="submit" class="btn full">Login</button>
     </form>
-    <p style="text-align: center; margin-top: 1rem; color: var(--light-text);">
-      <a href="index.html">← Back to Website</a>
-    </p>
+    <p style="text-align:center; margin-top:1rem; color:var(--light);"><a href="index.html">← Website</a></p>
   </div>
 
-  <!-- Admin Dashboard -->
-  <div class="admin-container" id="adminDashboard">
-    <div class="admin-header">
-      <h1>📦 Product Management</h1>
-      <div>
-        <button class="btn btn-secondary" onclick="exportData()">📥 Export</button>
-        <button class="btn" onclick="logout()">🚪 Logout</button>
-      </div>
+  <div class="admin-wrap" id="dash">
+    <div class="admin-head">
+      <h1>📦 Manage Products</h1>
+      <div><button class="btn btn-gr" onclick="exportData()">📥 Export JSON</button> <button class="btn" onclick="logout()">🚪 Logout</button></div>
     </div>
+    <div class="warn">⚠️ <strong>Note:</strong> Images browser storage mein save hoti hain (~5-10MB limit). Heavy usage ke liye <a href="https://imgur.com" target="_blank">Imgur</a> ya <a href="https://cloudinary.com" target="_blank">Cloudinary</a> se URL use karein.</div>
     
-    <div class="storage-warning">
-      ⚠️ <strong>Note:</strong> Images are stored in browser storage (max ~5-10MB). For heavy usage, upload images to <a href="https://cloudinary.com" target="_blank">Cloudinary</a> or <a href="https://imgur.com" target="_blank">Imgur</a> and paste the URL.
-    </div>
-
-    <div class="admin-grid">
-      <!-- Product Form -->
-      <div class="product-form">
-        <h2 id="formTitle">➕ Add New Product</h2>
-        <div id="formSuccess" style="display:none; background:#d1fae5; color:#16a34a; padding:0.75rem; border-radius:8px; margin-bottom:1rem;">✅ Product saved!</div>
-        
-        <form id="productForm">
-          <input type="hidden" id="productId">
-          
+    <div class="grid">
+      <div class="card">
+        <h2 id="fTitle">➕ Add Product</h2>
+        <div id="fSuccess" style="display:none; background:#d1fae5; color:#16a34a; padding:0.75rem; border-radius:8px; margin-bottom:1rem;">✅ Saved!</div>
+        <form id="pForm">
+          <input type="hidden" id="pId">
+          <div class="form-group"><label>Name *</label><input type="text" id="pName" required placeholder="Nazneen 3PC"></div>
+          <div class="form-group"><label>Price (PKR) *</label><input type="number" id="pPrice" required placeholder="7490"></div>
+          <div class="form-group"><label>Old Price (PKR)</label><input type="number" id="pOld" placeholder="12000"></div>
           <div class="form-group">
-            <label>Product Name *</label>
-            <input type="text" id="prodName" required placeholder="e.g., Nazneen 3PC">
-          </div>
-          
-          <div class="form-group">
-            <label>Price (PKR) *</label>
-            <input type="number" id="prodPrice" required placeholder="e.g., 7490">
-          </div>
-          
-          <div class="form-group">
-            <label>Original Price (PKR)</label>
-            <input type="number" id="prodOriginalPrice" placeholder="e.g., 12000">
-          </div>
-          
-          <div class="form-group">
-            <label>Product Image</label>
-            <div class="upload-zone" id="uploadZone">
-              <input type="file" id="imageUpload" accept="image/png, image/jpeg, image/jpg">
-              <div class="upload-icon">📁</div>
-              <div class="upload-text">Click or Drag & Drop Image</div>
-              <div class="upload-hint">PNG, JPEG, JPG • Max 10MB</div>
+            <label>Image (PNG/JPG/JPEG • Max 10MB)</label>
+            <div class="upload-zone" id="upZone">
+              <input type="file" id="upFile" accept="image/png, image/jpeg, image/jpg">
+              <div style="font-size:2rem;">📁</div>
+              <div style="font-weight:500;">Click or Drag & Drop</div>
+              <div style="font-size:0.85rem; color:var(--light);">Auto-compress to base64</div>
             </div>
-            <div class="error-msg" id="imageError"></div>
-            <div class="image-preview" id="imagePreview">
-              <img src="" alt="Preview">
-              <button type="button" class="remove-image" onclick="removeImage()">×</button>
-            </div>
-            <input type="hidden" id="prodImageData">
+            <div class="err-msg" id="upErr"></div>
+            <div class="preview-box" id="upPreview"><img src="" alt="Preview"><button type="button" class="remove-btn" onclick="clearImg()">×</button></div>
+            <input type="hidden" id="pData">
           </div>
-         
-          <div class="form-group">
-  <label>Available Sizes</label>
-  <input type="text" id="prodSizes" placeholder="e.g., S, M, L, XL or 36, 38, 40">
-  <small style="color: var(--light-text); font-size: 0.8rem;">Separate sizes with commas (,)</small>
-</div>
-          
-          <div class="form-group">
-            <label>Badge</label>
-            <select id="prodBadge">
-              <option value="">None</option>
-              <option value="New">New</option>
-              <option value="Sale">Sale</option>
-              <option value="Hot">Hot</option>
-              <option value="Best Seller">Best Seller</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label>Rating (1-5)</label>
-            <input type="number" id="prodRating" min="1" max="5" step="0.1" value="5">
-          </div>
-          
-          <div class="form-group">
-            <label>Reviews Count</label>
-            <input type="number" id="prodReviews" min="0" value="0">
-          </div>
-          
-          <button type="submit" class="btn btn-success btn-full" id="submitBtn">Add Product</button>
-          <button type="button" class="btn btn-secondary btn-full" id="cancelBtn" style="display:none; margin-top: 0.5rem;" onclick="resetForm()">Cancel</button>
+          <div class="form-group"><label>Sizes</label><input type="text" id="pSizes" placeholder="S, M, L, XL or 36, 38, 40"><small style="color:var(--light); font-size:0.8rem;">Comma separated. Leave empty for "One Size"</small></div>
+          <div class="form-group"><label>Badge</label><select id="pBadge"><option value="">None</option><option value="New">New</option><option value="Sale">Sale</option><option value="Hot">Hot</option><option value="Best Seller">Best Seller</option></select></div>
+          <div class="form-group"><label>Rating (1-5)</label><input type="number" id="pRate" min="1" max="5" step="0.1" value="5"></div>
+          <div class="form-group"><label>Reviews</label><input type="number" id="pRev" min="0" value="0"></div>
+          <button type="submit" class="btn btn-s full" id="subBtn">Add Product</button>
+          <button type="button" class="btn btn-gr full" id="cancelBtn" style="display:none; margin-top:0.5rem;" onclick="resetForm()">Cancel</button>
         </form>
       </div>
-      
-      <!-- Product List -->
-      <div class="product-list">
-        <h2> All Products (<span id="productCount">0</span>)</h2>
-        <div id="productsListContainer">
-          <div class="empty-state">No products added yet.</div>
-        </div>
+      <div class="card">
+        <h2>📋 Products (<span id="pCount">0</span>)</h2>
+        <div id="listContainer"><div class="empty">No products yet.</div></div>
       </div>
     </div>
   </div>
 
   <script src="data.js"></script>
   <script>
-    let isLoggedIn = false;
-    let editingId = null;
-    let currentImageData = '';
+    let loggedIn = false, editId = null, imgData = '';
+    const loginScreen = document.getElementById('loginScreen'), dash = document.getElementById('dash');
+    const loginForm = document.getElementById('loginForm'), pForm = document.getElementById('pForm');
+    const upZone = document.getElementById('upZone'), upFile = document.getElementById('upFile');
+    const upPreview = document.getElementById('upPreview'), upErr = document.getElementById('upErr');
 
-    // Login
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', e => {
       e.preventDefault();
-      if (document.getElementById('username').value === ADMIN_CREDENTIALS.username && 
-          document.getElementById('password').value === ADMIN_CREDENTIALS.password) {
-        isLoggedIn = true;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('adminDashboard').style.display = 'block';
-        loadProducts();
-        displayProducts();
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-        setTimeout(() => document.getElementById('loginError').style.display = 'none', 3000);
-      }
+      if(document.getElementById('user').value === ADMIN_CREDENTIALS.username && document.getElementById('pass').value === ADMIN_CREDENTIALS.password){
+        loggedIn = true; loginScreen.style.display='none'; dash.style.display='block'; loadProducts(); renderList();
+      } else { document.getElementById('loginErr').style.display='block'; setTimeout(()=>document.getElementById('loginErr').style.display='none', 3000); }
     });
 
-    function logout() {
-      isLoggedIn = false;
-      document.getElementById('adminDashboard').style.display = 'none';
-      document.getElementById('loginScreen').style.display = 'block';
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-    }
+    function logout(){ loggedIn=false; dash.style.display='none'; loginScreen.style.display='block'; document.getElementById('user').value=''; document.getElementById('pass').value=''; }
 
-    // Image Upload Handling
-    const uploadZone = document.getElementById('uploadZone');
-    const imageUpload = document.getElementById('imageUpload');
-    const imagePreview = document.getElementById('imagePreview');
-    const imageError = document.getElementById('imageError');
-    const prodImageData = document.getElementById('prodImageData');
+    ['dragenter','dragover','dragleave','drop'].forEach(ev => upZone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); }, false));
+    ['dragenter','dragover'].forEach(ev => upZone.addEventListener(ev, ()=>upZone.classList.add('dragover'), false));
+    ['dragleave','drop'].forEach(ev => upZone.addEventListener(ev, ()=>upZone.classList.remove('dragover'), false));
+    upZone.addEventListener('drop', e => handleFiles(e.dataTransfer.files), false);
+    upFile.addEventListener('change', e => handleFiles(e.target.files), false);
 
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      uploadZone.addEventListener(eventName, preventDefaults, false);
-    });
-
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-      uploadZone.addEventListener(eventName, () => uploadZone.classList.add('dragover'), false);
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-      uploadZone.addEventListener(eventName, () => uploadZone.classList.remove('dragover'), false);
-    });
-
-    uploadZone.addEventListener('drop', handleDrop, false);
-    imageUpload.addEventListener('change', handleFiles, false);
-
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      handleFiles({ target: { files: files } });
-    }
-
-    function handleFiles(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-      if (!validTypes.includes(file.type)) {
-        showError('❌ Only PNG, JPEG, JPG files are allowed.');
-        return;
-      }
-
-      if (file.size > 10 * 1024 * 1024) {
-        showError('❌ File size must be less than 10MB.');
-        return;
-      }
-
-      hideError();
+    function handleFiles(files){
+      const f = files[0]; if(!f) return;
+      if(!['image/jpeg','image/jpg','image/png'].includes(f.type)){ showUpErr(' Only PNG/JPEG/JPG allowed'); return; }
+      if(f.size > 10*1024*1024){ showUpErr('❌ Max 10MB allowed'); return; }
+      hideUpErr();
       const reader = new FileReader();
-      reader.onload = function(event) {
-        currentImageData = event.target.result;
-        prodImageData.value = currentImageData;
-        imagePreview.querySelector('img').src = currentImageData;
-        imagePreview.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
+      reader.onload = ev => { imgData = ev.target.result; document.getElementById('pData').value = imgData; upPreview.querySelector('img').src = imgData; upPreview.style.display='block'; };
+      reader.readAsDataURL(f);
     }
+    function clearImg(){ imgData=''; document.getElementById('pData').value=''; upPreview.style.display='none'; upFile.value=''; hideUpErr(); }
+    function showUpErr(m){ upErr.textContent=m; upErr.style.display='block'; }
+    function hideUpErr(){ upErr.style.display='none'; }
 
-    function removeImage() {
-      currentImageData = '';
-      prodImageData.value = '';
-      imagePreview.style.display = 'none';
-      imageUpload.value = '';
-      hideError();
-    }
-
-    function showError(msg) {
-      imageError.textContent = msg;
-      imageError.style.display = 'block';
-    }
-
-    function hideError() {
-      imageError.style.display = 'none';
-    }
-
-    // Form Submit
-    document.getElementById('productForm').addEventListener('submit', function(e) {
+    pForm.addEventListener('submit', e => {
       e.preventDefault();
-      
-      const product = {
-        id: editingId || Date.now().toString(),
-        name: document.getElementById('prodName').value,
-        price: parseFloat(document.getElementById('prodPrice').value),
-        originalPrice: parseFloat(document.getElementById('prodOriginalPrice').value) || null,
-        image: currentImageData || document.getElementById('prodImage')?.value || '',
-        badge: document.getElementById('prodBadge').value,
-        rating: parseFloat(document.getElementById('prodRating').value),
-        reviews: parseInt(document.getElementById('prodReviews').value)
-      };
-
-      if (editingId) {
-        const index = products.findIndex(p => p.id === editingId);
-        if (index !== -1) products[index] = product;
-      } else {
-        products.push(product);
-      }
-
-      saveProducts();
-      displayProducts();
-      resetForm();
-      
-      document.getElementById('formSuccess').style.display = 'block';
-      setTimeout(() => document.getElementById('formSuccess').style.display = 'none', 3000);
+      const raw = document.getElementById('pSizes').value;
+      const sizes = raw ? raw.split(',').map(s=>s.trim()).filter(s=>s) : ['One Size'];
+      const prod = { id: editId || Date.now().toString(), name: document.getElementById('pName').value, price: +document.getElementById('pPrice').value, oldPrice: +document.getElementById('pOld').value || null, image: imgData, sizes, badge: document.getElementById('pBadge').value, rating: +document.getElementById('pRate').value, reviews: +document.getElementById('pRev').value };
+      if(editId){ const i = products.findIndex(p=>p.id===editId); if(i!==-1) products[i]=prod; } else products.push(prod);
+      saveProducts(); renderList(); resetForm();
+      const ok = document.getElementById('fSuccess'); ok.style.display='block'; setTimeout(()=>ok.style.display='none', 3000);
     });
 
-    function displayProducts() {
-      const container = document.getElementById('productsListContainer');
-      document.getElementById('productCount').textContent = products.length;
-      
-      if (products.length === 0) {
-        container.innerHTML = '<div class="empty-state">No products added yet.</div>';
-        return;
-      }
-      
-      container.innerHTML = products.map(p => `
-        <div class="product-item">
-          ${p.image ? 
-            `<img src="${p.image}" alt="${p.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22%3E📷%3C/text%3E%3C/svg%3E'">` :
-            `<div style="width:80px;height:80px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📷</div>`
-          }
-          <div class="product-item-info">
-            <h3>${p.name}</h3>
-            <p>Price: Rs.${p.price.toLocaleString()} PKR</p>
-            ${p.originalPrice ? `<p>Original: Rs.${p.originalPrice.toLocaleString()} PKR</p>` : ''}
-            ${p.badge ? `<p><strong>Badge:</strong> ${p.badge}</p>` : ''}
-          </div>
-          <div class="product-item-actions">
-            <button class="btn btn-warning" onclick="editProduct('${p.id}')">Edit</button>
-            <button class="btn btn-danger" onclick="deleteProduct('${p.id}')">Delete</button>
-          </div>
-        </div>
-      `).join('');
+    function renderList(){
+      const c = document.getElementById('listContainer'); document.getElementById('pCount').textContent = products.length;
+      if(!products.length){ c.innerHTML='<div class="empty">No products yet.</div>'; return; }
+      c.innerHTML = products.map(p => `
+        <div class="item">
+          ${p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22%3E📷%3C/text%3E%3C/svg%3E'">` : `<div style="width:80px;height:80px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📷</div>`}
+          <div class="item-info"><h3>${p.name}</h3><p>Rs.${p.price.toLocaleString()} PKR</p>${p.oldPrice?`<p>Was: Rs.${p.oldPrice.toLocaleString()}</p>`:''}<p><strong>Sizes:</strong> ${p.sizes.join(' | ')}</p>${p.badge?`<p><strong>Badge:</strong> ${p.badge}</p>`:''}</div>
+          <div class="actions"><button class="btn btn-w" onclick="editProd('${p.id}')">Edit</button><button class="btn btn-d" onclick="delProd('${p.id}')">Delete</button></div>
+        </div>`).join('');
     }
 
-    function editProduct(id) {
-      const p = products.find(x => x.id === id);
-      if (!p) return;
-      editingId = id;
-      document.getElementById('prodName').value = p.name;
-      document.getElementById('prodPrice').value = p.price;
-      document.getElementById('prodOriginalPrice').value = p.originalPrice || '';
-      document.getElementById('prodBadge').value = p.badge || '';
-      document.getElementById('prodRating').value = p.rating || 5;
-      document.getElementById('prodReviews').value = p.reviews || 0;
-      
-      if (p.image && p.image.startsWith('data:')) {
-        currentImageData = p.image;
-        prodImageData.value = p.image;
-        imagePreview.querySelector('img').src = p.image;
-        imagePreview.style.display = 'block';
-      }
-      
-      document.getElementById('formTitle').textContent = '️ Edit Product';
-      document.getElementById('submitBtn').textContent = 'Update Product';
-      document.getElementById('cancelBtn').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function editProd(id){
+      const p = products.find(x=>x.id===id); if(!p) return; editId=id;
+      document.getElementById('pName').value=p.name; document.getElementById('pPrice').value=p.price; document.getElementById('pOld').value=p.oldPrice||''; document.getElementById('pSizes').value=p.sizes.join(', '); document.getElementById('pBadge').value=p.badge||''; document.getElementById('pRate').value=p.rating; document.getElementById('pRev').value=p.reviews;
+      if(p.image){ imgData=p.image; document.getElementById('pData').value=imgData; upPreview.querySelector('img').src=imgData; upPreview.style.display='block'; }
+      document.getElementById('fTitle').textContent='✏️ Edit Product'; document.getElementById('subBtn').textContent='Update'; document.getElementById('cancelBtn').style.display='block'; window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    function deleteProduct(id) {
-      if (confirm('Delete this product?')) {
-        products = products.filter(p => p.id !== id);
-        saveProducts();
-        displayProducts();
-        if (editingId === id) resetForm();
-      }
-    }
-
-    function resetForm() {
-      editingId = null;
-      document.getElementById('productForm').reset();
-      removeImage();
-      document.getElementById('formTitle').textContent = '➕ Add New Product';
-      document.getElementById('submitBtn').textContent = 'Add Product';
-      document.getElementById('cancelBtn').style.display = 'none';
-      document.getElementById('prodRating').value = 5;
-      document.getElementById('prodReviews').value = 0;
-    }
-
-    function exportData() {
-      const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'stylenest-products.json';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      if (isLoggedIn) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('adminDashboard').style.display = 'block';
-        displayProducts();
-      }
-    });
+    function delProd(id){ if(confirm('Delete this product?')){ products=products.filter(p=>p.id!==id); saveProducts(); renderList(); if(editId===id) resetForm(); } }
+    function resetForm(){ editId=null; pForm.reset(); clearImg(); document.getElementById('fTitle').textContent='➕ Add Product'; document.getElementById('subBtn').textContent='Add Product'; document.getElementById('cancelBtn').style.display='none'; }
+    function exportData(){ const b=new Blob([JSON.stringify(products,null,2)],{type:'application/json'}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download='stylenest-products.json'; a.click(); URL.revokeObjectURL(u); }
   </script>
 </body>
 </html>
