@@ -1,27 +1,33 @@
-// Products Data - Yeh file admin panel se update hogi
-let products = [
-  // Yahan products admin panel se add honge
-];
+// Products Data Store
+let products = [];
 
 // Admin Credentials
 const ADMIN_CREDENTIALS = {
   username: 'admin',
-  password: 'stylenest123'  // Change this password!
+  password: 'stylenest123' // ✅ Change this before going live!
 };
 
-// LocalStorage se products load karein
+// LocalStorage Management
 function loadProducts() {
   const stored = localStorage.getItem('stylenest_products');
   if (stored) {
-    products = JSON.parse(stored);
+    try {
+      products = JSON.parse(stored);
+    } catch (e) {
+      products = [];
+      localStorage.removeItem('stylenest_products');
+    }
   }
   return products;
 }
 
-// LocalStorage mein save karein
 function saveProducts() {
-  localStorage.setItem('stylenest_products', JSON.stringify(products));
+  try {
+    localStorage.setItem('stylenest_products', JSON.stringify(products));
+  } catch (e) {
+    alert('⚠️ Storage full! Delete some products or use smaller images.');
+  }
 }
 
-// Initial load
+// Initialize
 loadProducts();
